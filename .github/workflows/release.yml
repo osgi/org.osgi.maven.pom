@@ -1,0 +1,49 @@
+# Release of the parent pom. The version is the literal <version> in
+# pom.xml; a release is cut by pushing a tag that equals that version
+# (no prefix). Artifacts are signed and staged to Maven Central; the final
+# publish stays manual in the Central portal (autoPublish: false).
+name: release
+
+on:
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          # server id used by this pom (central-publishing-maven-plugin)
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Guard - tag must equal the pom version
+        run: |
+          v=$(mvn -B -q -ntp help:evaluate -Dexpression=project.version -DforceStdout)
+          tag='${{ github.ref_name }}'
+          echo "$v" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' \
+            || { echo "::error::version '$v' is not a plain x.y.z release version"; exit 1; }
+          [ "$tag" = "$v" ] \
+            || { echo "::error::tag '$tag' does not match pom version '$v'"; exit 1; }
+
+      - name: Build and deploy release
+        run: mvn -B -ntp -Pdeploy deploy
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_SONATYPE_TOKEN_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_SONATYPE_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

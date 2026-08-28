@@ -1,7 +1,9 @@
-# Managed by otterdog blueprint require-ci-workflows. Do not edit here.
-# CI logic lives in osgi/.github (reusable workflow).
+# CI for the parent pom. This repo deliberately has its own workflows: the
+# shared spec workflows in osgi/.github assume the spec repo layout
+# (reactor, .mvn/maven.config, TCK runs), none of which applies here.
 # The weekly schedule keeps a fresh SNAPSHOT in Sonatype Central snapshots.
 name: build
+
 on:
   push:
     branches: [ main ]
@@ -9,9 +11,57 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '23 3 * * 1'
+
+permissions:
+  contents: read
+
 jobs:
   build:
-    uses: osgi/.github/.github/workflows/spec-build.yml@main
-    secrets: inherit
-    with:
-      deploy: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build
+        run: mvn -B -ntp verify
+
+  deploy:
+    needs: build
+    if: >-
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          # server id used by this pom (central-publishing-maven-plugin)
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_PASSWORD
+
+      # releases go through release.yml (tag push) instead
+      - name: Guard - only SNAPSHOT versions are auto-deployed
+        run: |
+          v=$(mvn -B -q -ntp help:evaluate -Dexpression=project.version -DforceStdout)
+          echo "$v" | grep -q -- '-SNAPSHOT$' \
+            || { echo "::error::version '$v' is not a -SNAPSHOT — refusing scheduled deploy"; exit 1; }
+
+      - name: Deploy SNAPSHOT
+        run: mvn -B -ntp -Pdeploy -Dgpg.skip=true deploy
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_SONATYPE_TOKEN_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_SONATYPE_TOKEN_PASSWORD }}
