@@ -1,7 +1,8 @@
 # CI for the parent pom. This repo deliberately has its own workflows: the
 # shared spec workflows in osgi/.github assume the spec repo layout
 # (reactor, .mvn/maven.config, TCK runs), none of which applies here.
-# The weekly schedule keeps a fresh SNAPSHOT in Sonatype Central snapshots.
+# Every push to main deploys a fresh SNAPSHOT to Sonatype Central
+# snapshots; the weekly schedule keeps it fresh in quiet times.
 name: build
 
 on:
@@ -34,9 +35,8 @@ jobs:
 
   deploy:
     needs: build
-    if: >-
-      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-      && github.ref == 'refs/heads/main'
+    # push to main, schedule and manual dispatch — never pull requests
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
