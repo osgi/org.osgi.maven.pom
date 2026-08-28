@@ -1,0 +1,17 @@
+# Managed by otterdog blueprint require-ci-workflows. Do not edit here.
+# CI logic lives in osgi/.github (reusable workflow).
+# The weekly schedule keeps a fresh SNAPSHOT in Sonatype Central snapshots.
+name: build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 3 * * 1'
+jobs:
+  build:
+    uses: osgi/.github/.github/workflows/spec-build.yml@main
+    secrets: inherit
+    with:
+      deploy: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
