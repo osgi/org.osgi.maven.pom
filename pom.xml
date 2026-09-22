@@ -395,6 +395,57 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>3.7.0</version>
+					<configuration>
+						<!-- The OSGi sources predate doclint and use legacy HTML;
+						     the monorepo build disabled it too
+						     (cnf/gradle/companion.gradle). This also swallows the
+						     TCK-only @spec tag, which clashes with the JDK 20+
+						     standard tag of the same name. -->
+						<doclint>none</doclint>
+						<!-- OSGi documentation tags, heads taken from the original
+						     monorepo javadoc build. Unregistered tags (TCK-only
+						     @spec, @requirement and a few typos) are silently
+						     dropped from the output. -->
+						<tags>
+							<tag>
+								<name>Immutable</name>
+								<placement>t</placement>
+								<head>Immutable</head>
+							</tag>
+							<tag>
+								<name>ThreadSafe</name>
+								<placement>t</placement>
+								<head>ThreadSafe</head>
+							</tag>
+							<tag>
+								<name>NotThreadSafe</name>
+								<placement>t</placement>
+								<head>NotThreadSafe</head>
+							</tag>
+							<tag>
+								<name>GuardedBy</name>
+								<placement>mf</placement>
+								<head>Guarded By:</head>
+							</tag>
+							<tag>
+								<name>security</name>
+								<placement>m</placement>
+								<head>Required Permissions</head>
+							</tag>
+							<tag>
+								<name>noimplement</name>
+								<placement>t</placement>
+								<head>Consumers of this API must not implement this interface</head>
+							</tag>
+							<!-- JDK-style tag used in a few API sources; not
+							     enabled by default outside the JDK itself -->
+							<tag>
+								<name>implNote</name>
+								<placement>a</placement>
+								<head>Implementation Note:</head>
+							</tag>
+						</tags>
+					</configuration>
 					<executions>
 						<execution>
 							<id>attach-javadocs</id>
