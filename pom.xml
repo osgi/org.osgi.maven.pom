@@ -444,6 +444,15 @@
 								<placement>a</placement>
 								<head>Implementation Note:</head>
 							</tag>
+							<!-- TCK traceability tag: which API method or spec
+							     chapter a test covers. Renamed from the historic
+							     @spec, which clashes with the JDK 20+ standard
+							     tag of that name. -->
+							<tag>
+								<name>osgi.spec</name>
+								<placement>a</placement>
+								<head>Specification reference:</head>
+							</tag>
 						</tags>
 					</configuration>
 					<executions>
