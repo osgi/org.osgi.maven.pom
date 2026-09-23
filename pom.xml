@@ -493,6 +493,29 @@
 						<skip>true</skip>
 					</configuration>
 				</plugin>
+				<!-- Specification chapter rendering. The executions are managed
+				     here so every module that declares the plugin renders the
+				     chapter as PDF and as chunked XHTML — no per-module
+				     execution needed. -->
+				<plugin>
+					<groupId>org.eclipse.osgi-technology.build.tools.maven</groupId>
+					<artifactId>osgi-docbook-maven-plugin</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<executions>
+						<execution>
+							<id>spec-pdf</id>
+							<goals>
+								<goal>pdf</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>spec-html</id>
+							<goals>
+								<goal>html</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.sonatype.central</groupId>
 					<artifactId>central-publishing-maven-plugin</artifactId>
