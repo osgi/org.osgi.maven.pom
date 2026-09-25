@@ -27,11 +27,11 @@ SPDX-License-Identifier: Apache-2.0
 
 The project maintains the following source code repositories:
 
- * https://github.com/osgi/osgi.git
+ * https://github.com/osgi/org.osgi.maven.pom.git
 
 ## Third-party Content
 
-The Content may include items that have been sourced from third parties as follows:</p>
+The Content may include items that have been sourced from third parties as follows:
 
 JUnit
 
@@ -44,4 +44,3 @@ Apache Software Foundation
  * License: Apache-2.0
  * Project: https://apache.org/
  * Source: https://github.com/apache/
- 
