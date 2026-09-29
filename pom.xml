@@ -283,21 +283,21 @@
 				<plugin>
 					<groupId>biz.aQute.bnd</groupId>
 					<artifactId>bnd-resolver-maven-plugin</artifactId>
-					<version>${bnd.old.version}</version>
+					<version>${bnd.version}</version>
 					<executions>
-						<!-- Integration Test Configuration -->
+						<!-- Integration Test Configuration: the committed -runbundles
+						     of tck.bndrun must be a closed, resolvable set. Nothing is
+						     written; update the file with mvn bnd-resolver:resolve. -->
 						<execution>
 							<id>resolve-test</id>
 							<phase>pre-integration-test</phase>
 							<goals>
-								<goal>resolve</goal>
+								<goal>verify</goal>
 							</goals>
 							<configuration>
 								<bndruns>
 									<include>tck.bndrun</include>
 								</bndruns>
-								<writeOnChanges>true</writeOnChanges>
-								<failOnChanges>false</failOnChanges>
 								<includeDependencyManagement>true</includeDependencyManagement>
 								<reportOptional>false</reportOptional>
 								<scopes>
@@ -307,15 +307,18 @@
 								</scopes>
 							</configuration>
 						</execution>
+						<!-- mvn bnd-resolver:resolve writes the resolved -runbundles
+						     into tck.bndrun, to be reviewed and committed. -->
 						<execution>
-							<id>resolve</id>
-							<goals>
-								<goal>resolve</goal>
-							</goals>
+							<id>default-cli</id>
 							<configuration>
+								<bndruns>
+									<include>tck.bndrun</include>
+								</bndruns>
 								<writeOnChanges>true</writeOnChanges>
 								<failOnChanges>false</failOnChanges>
 								<includeDependencyManagement>true</includeDependencyManagement>
+								<reportOptional>false</reportOptional>
 								<scopes>
 									<scope>compile</scope>
 									<scope>runtime</scope>
