@@ -55,8 +55,8 @@
 		<dash.projectId>technology.osgi</dash.projectId>
 		<dash.repo>https://github.com/osgi/</dash.repo>
 
-		<bnd.old.version>6.4.0</bnd.old.version>
-		<bnd.version>7.2.3</bnd.version>
+		<bnd.version>6.4.0</bnd.version>
+		<bnd.next.version>7.2.3</bnd.next.version>
 
 		<maven.deploy.skip>true</maven.deploy.skip>
 
@@ -283,7 +283,7 @@
 				<plugin>
 					<groupId>biz.aQute.bnd</groupId>
 					<artifactId>bnd-resolver-maven-plugin</artifactId>
-					<version>${bnd.version}</version>
+					<version>${bnd.next.version}</version>
 					<executions>
 						<!-- Integration Test Configuration: the committed -runbundles
 						     of tck.bndrun must be a closed, resolvable set. Nothing is
@@ -332,7 +332,7 @@
 				<plugin>
 					<groupId>biz.aQute.bnd</groupId>
 					<artifactId>bnd-testing-maven-plugin</artifactId>
-					<version>${bnd.version}</version>
+					<version>${bnd.next.version}</version>
 					<executions>
 						<!-- OSGi integration tests execution -->
 						<execution>
