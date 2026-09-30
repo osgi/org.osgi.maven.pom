@@ -50,6 +50,7 @@
 		<maven.install.plugin.version>3.1.4</maven.install.plugin.version>
 		<maven.deploy.plugin.version>3.2.0</maven.deploy.plugin.version>
 		<maven-gpg-plugin-version>3.2.8</maven-gpg-plugin-version>
+		<maven.enforcer.plugin.version>3.6.3</maven.enforcer.plugin.version>
 
 		<!-- dash-->
 		<dash.projectId>technology.osgi</dash.projectId>
@@ -96,15 +97,20 @@
 		</license>
 	</licenses>
 
-	<scm>
-		<url>https://github.com/osgi</url>
-		<connection>scm:git:https://github.com/osgi</connection>
-		<developerConnection>scm:git:git@github.com:osgi</developerConnection>
+	<!-- All modules of a repository live in one Git repository: every repository
+	     sets osgi.scm.repository (owner/name, e.g. osgi/org.osgi.framework) in
+	     its reactor pom, and no module path is appended to the inherited URLs. -->
+	<scm child.scm.connection.inherit.append.path="false"
+		child.scm.developerConnection.inherit.append.path="false"
+		child.scm.url.inherit.append.path="false">
+		<url>https://github.com/${osgi.scm.repository}</url>
+		<connection>scm:git:https://github.com/${osgi.scm.repository}.git</connection>
+		<developerConnection>scm:git:git@github.com:${osgi.scm.repository}.git</developerConnection>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/osgi/osgi/issues</url>
+		<url>https://github.com/${osgi.scm.repository}/issues</url>
 	</issueManagement>
 
 	<distributionManagement>
@@ -152,6 +158,29 @@
 
 	<build>
 		<plugins>
+			<!-- <scm> and <issueManagement> need osgi.scm.repository -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven.enforcer.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>osgi-scm-repository</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireProperty>
+									<property>osgi.scm.repository</property>
+									<regex>[^/]+/[^/]+</regex>
+									<message>Set osgi.scm.repository (owner/name of the Git repository, e.g. osgi/org.osgi.framework) in the reactor pom.</message>
+								</requireProperty>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- Deactivate the default maven-deloy-plugin globally -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
