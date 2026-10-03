@@ -60,7 +60,7 @@
 		     release that resolves and runs the TCKs (the verify goal is new in
 		     bnd 7). The CI variant bnd-next sets both to the current bnd
 		     snapshot. -->
-		<bnd.version>6.4.0</bnd.version>
+		<bnd.version>7.4.0</bnd.version>
 		<bnd.tck.version>7.4.0</bnd.tck.version>
 
 		<maven.deploy.skip>true</maven.deploy.skip>
