@@ -46,6 +46,8 @@
 		<maven.resources.plugin.version>3.5.0</maven.resources.plugin.version>
 		<maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
 		<maven.surefire.plugin.version>3.6.0</maven.surefire.plugin.version>
+		<maven.surefire.report.plugin.version>3.6.0</maven.surefire.report.plugin.version>
+		<build.helper.maven.plugin.version>3.6.2</build.helper.maven.plugin.version>
 		<maven.jar.plugin.version>3.4.2</maven.jar.plugin.version>
 		<maven.install.plugin.version>3.2.0</maven.install.plugin.version>
 		<maven.deploy.plugin.version>3.2.0</maven.deploy.plugin.version>
@@ -224,6 +226,18 @@
 							<exclude>**/integration/**</exclude>
 						</excludes>
 					</configuration>
+				</plugin>
+				<!-- Renders the JUnit XML of the TCK runs as HTML -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>${maven.surefire.report.plugin.version}</version>
+				</plugin>
+				<!-- The spec modules compile the API sources with add-source -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build.helper.maven.plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
