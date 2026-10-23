@@ -19,7 +19,9 @@ It centralizes what all spec repos share: plugin management (bnd-maven-plugin
 with the common bundle headers, bnd baseline against the last release on
 Maven Central, bnd resolver/testing for the TCK runs, flatten for CI-friendly
 versions, sources/javadoc/gpg and Central publishing for deploys) and
-dependency management for the test infrastructure (JUnit, AssertJ, Mockito).
+dependency management for the test infrastructure (JUnit, AssertJ with its
+Byte Buddy, osgi-test, Mockito); the TCKs of the spec repos take these versions
+from here.
 
 SNAPSHOTs are deployed to
 [Sonatype Central snapshots](https://central.sonatype.com/repository/maven-snapshots/).
