@@ -67,11 +67,26 @@
 
 		<maven.deploy.skip>true</maven.deploy.skip>
 
-		<!-- Dependencies -->
-		<junit-jupiter.version>5.12.2</junit-jupiter.version>
-		<junit-platform.version>1.12.2</junit-platform.version>
+		<!-- Dependencies. The test dependencies are managed below; the TCK
+		     bndrun files read the same properties for their run bundles. -->
+		<!-- assertj-core 3.27 imports org.junit.jupiter.api.extension from
+		     JUnit 5.14 on: an older JUnit leaves its extensions unwired in OSGi -->
+		<junit-jupiter.version>5.14.4</junit-jupiter.version>
+		<junit-platform.version>1.14.4</junit-platform.version>
+		<!-- the opentest4j of junit-jupiter-api ${junit-jupiter.version} -->
+		<opentest4j.version>1.3.0</opentest4j.version>
 		<assertj.version>3.27.7</assertj.version>
-		<mockito.version>4.11.0</mockito.version>
+		<!-- the Byte Buddy of assertj-core ${assertj.version}: change both together -->
+		<byte-buddy.version>1.18.3</byte-buddy.version>
+		<osgi-test.version>1.4.0-SNAPSHOT</osgi-test.version>
+		<!-- a repository that still sets its own keeps that version -->
+		<org.osgi.test.assertj.promise.version>${osgi-test.version}</org.osgi.test.assertj.promise.version>
+		<!-- Mockito 5 needs Java 11; its inline mock maker needs
+		     byte-buddy-agent and, in OSGi, the boot delegation of
+		     org.mockito.internal.creation.bytebuddy.inject -->
+		<mockito.version>5.24.0</mockito.version>
+		<!-- the Objenesis of mockito-core ${mockito.version}: change both together -->
+		<objenesis.version>3.3</objenesis.version>
 		<awaitility.version>4.2.0</awaitility.version>
 
 
@@ -704,6 +719,62 @@
 				<version>${assertj.version}</version>
 				<scope>compile</scope>
 			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>${byte-buddy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy-agent</artifactId>
+				<version>${byte-buddy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.objenesis</groupId>
+				<artifactId>objenesis</artifactId>
+				<version>${objenesis.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.common</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.junit4</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.junit5</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.assertj.framework</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.assertj.permission</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.assertj.promise</artifactId>
+				<version>${org.osgi.test.assertj.promise.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.test.assertj.xml</artifactId>
+				<version>${osgi-test.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -746,6 +817,19 @@
 				<artifactId>junit-platform-launcher</artifactId>
 				<version>${junit-platform.version}</version>
 				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.opentest4j</groupId>
+				<artifactId>opentest4j</artifactId>
+				<version>${opentest4j.version}</version>
+			</dependency>
+			<!-- the rest of JUnit 5 in the same version -->
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit-jupiter.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.servicemix.bundles</groupId>
