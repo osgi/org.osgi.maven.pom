@@ -79,8 +79,6 @@
 		<!-- the Byte Buddy of assertj-core ${assertj.version}: change both together -->
 		<byte-buddy.version>1.18.3</byte-buddy.version>
 		<osgi-test.version>1.4.0-SNAPSHOT</osgi-test.version>
-		<!-- a repository that still sets its own keeps that version -->
-		<org.osgi.test.assertj.promise.version>${osgi-test.version}</org.osgi.test.assertj.promise.version>
 		<!-- Mockito 5 needs Java 11; its inline mock maker needs
 		     byte-buddy-agent and, in OSGi, the boot delegation of
 		     org.mockito.internal.creation.bytebuddy.inject -->
@@ -768,7 +766,7 @@
 			<dependency>
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.test.assertj.promise</artifactId>
-				<version>${org.osgi.test.assertj.promise.version}</version>
+				<version>${osgi-test.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.osgi</groupId>
