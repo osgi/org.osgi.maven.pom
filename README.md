@@ -11,7 +11,7 @@ Every `org.osgi.*` spec repo references it as parent:
 <parent>
 	<groupId>org.osgi</groupId>
 	<artifactId>org.osgi.maven.pom.parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 </parent>
 ```
 
