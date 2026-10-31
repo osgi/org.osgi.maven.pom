@@ -25,7 +25,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.osgi</groupId>
 	<artifactId>org.osgi.maven.pom.parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 
 	<name>OSGi project - parent pom</name>
@@ -78,7 +78,7 @@
 		<assertj.version>3.27.7</assertj.version>
 		<!-- the Byte Buddy of assertj-core ${assertj.version}: change both together -->
 		<byte-buddy.version>1.18.3</byte-buddy.version>
-		<osgi-test.version>1.4.0-SNAPSHOT</osgi-test.version>
+		<osgi-test.version>1.4.0</osgi-test.version>
 		<!-- Mockito 5 needs Java 11; its inline mock maker needs
 		     byte-buddy-agent and, in OSGi, the boot delegation of
 		     org.mockito.internal.creation.bytebuddy.inject -->
@@ -563,7 +563,7 @@
 				<plugin>
 					<groupId>org.eclipse.osgi-technology.build.tools.maven</groupId>
 					<artifactId>osgi-docbook-maven-plugin</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
+					<version>0.0.1</version>
 					<executions>
 						<execution>
 							<id>spec-pdf</id>
