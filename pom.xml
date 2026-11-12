@@ -422,7 +422,8 @@
 					<artifactId>flatten-maven-plugin</artifactId>
 					<version>1.8.0</version>
 					<configuration>
-						<flattenMode>oss</flattenMode>
+						<flattenMode>resolveCiFriendliesOnly</flattenMode>
+						<updatePomFile>true</updatePomFile>
 					</configuration>
 					<executions>
 						<execution>
