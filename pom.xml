@@ -71,8 +71,8 @@
 		     bndrun files read the same properties for their run bundles. -->
 		<!-- assertj-core 3.27 imports org.junit.jupiter.api.extension from
 		     JUnit 5.14 on: an older JUnit leaves its extensions unwired in OSGi -->
-		<junit-jupiter.version>5.14.4</junit-jupiter.version>
-		<junit-platform.version>1.14.4</junit-platform.version>
+		<junit-jupiter.version>6.1.3</junit-jupiter.version>
+		<junit-platform.version>6.1.3</junit-platform.version>
 		<!-- the opentest4j of junit-jupiter-api ${junit-jupiter.version} -->
 		<opentest4j.version>1.3.0</opentest4j.version>
 		<assertj.version>3.27.7</assertj.version>
