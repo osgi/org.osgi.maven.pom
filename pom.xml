@@ -25,7 +25,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.osgi</groupId>
 	<artifactId>org.osgi.maven.pom.parent</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>OSGi project - parent pom</name>
