@@ -84,7 +84,7 @@
 		     org.mockito.internal.creation.bytebuddy.inject -->
 		<mockito.version>5.24.0</mockito.version>
 		<!-- the Objenesis of mockito-core ${mockito.version}: change both together -->
-		<objenesis.version>3.3</objenesis.version>
+		<objenesis.version>3.6</objenesis.version>
 		<awaitility.version>4.2.0</awaitility.version>
 
 
